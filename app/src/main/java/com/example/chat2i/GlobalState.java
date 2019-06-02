@@ -33,7 +33,7 @@ public class GlobalState extends Application {
 
     public void alerter(String s) {
         Log.i(CAT,s);
-        Toast t = Toast.makeText(this,s,Toast.LENGTH_LONG);
+        Toast t = Toast.makeText(this,s, Toast.LENGTH_LONG);
         t.show();
     }
 

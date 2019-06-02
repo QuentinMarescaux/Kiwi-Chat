@@ -12,11 +12,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class ChoixConvActivity extends RestActivity implements View.OnClickListener {
 
@@ -50,6 +56,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
     @Override
     public void traiteReponse(JSONObject o, String action) {
         if (action.contentEquals("recupConversations")) {
+            gs.alerter("attention le json arrive");
             gs.alerter(o.toString());
 
             // On transforme notre objet JSON en une liste de "Conversations"
@@ -68,11 +75,36 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
              *                   {"id":"2","active":"1","theme":"Ballon d'Or"}]}
              * */
 
-            int i;
+
             JSONArray convs = null;
+            List<Conversation> conversationList = null;
+
             try {
+                /**
+                 * AVEC GSON
+                 */
+                //on récupère les conversations dans le JSON
                 convs = o.getJSONArray("conversations");
-                for(i=0;i<convs.length();i++) {
+
+                //on récupère le type avec TypeToken. Elle va permettre à la librairie de connaitre
+                //le type de retour de notre list car il ne peut pas être déterminé à l'execution
+                Type listType = new TypeToken<ArrayList<Conversation>>(){}.getType();
+                //on crée le Gson qui va transformer le JSONArray en objet Conversation qui sera placé dans une List<Conversation>
+                conversationList = new Gson().fromJson(String.valueOf(convs), listType);
+
+                //parcours de la List<Conversation> pour afficher comme précédemment les conversations
+                for(Conversation c : conversationList){
+                    gs.alerter("Conv " + c.getId()  + " / theme = " + c.getTheme() + " / active ?" + c.getActive());
+                }
+
+                /**
+                 * SANS GSON
+                 */
+/*
+                int i;
+                try {
+                    convs = o.getJSONArray("conversations");
+                    for(i=0;i<convs.length();i++) {
                     JSONObject nextConv = (JSONObject) convs.get(i);
 
                     int id =Integer.parseInt(nextConv.getString("id"));
@@ -84,11 +116,13 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
 
                     listeConvs.addConversation(c);
                 }
+*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            gs.alerter(listeConvs.toString());
+            //gs.alerter(listeConvs.toString());
+            gs.alerter(conversationList.toString());
 
             // On peut maintenant appuyer sur le bouton
             btnOK.setEnabled(true);
