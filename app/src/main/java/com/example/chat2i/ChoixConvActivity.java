@@ -77,7 +77,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
 
 
             JSONArray convs = null;
-            List<Conversation> conversationList = null;
+            List<Conversation> conversationList = new ArrayList<Conversation>();
 
             try {
                 /**
@@ -126,7 +126,9 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
 
             // On peut maintenant appuyer sur le bouton
             btnOK.setEnabled(true);
-            remplirSpinner2();
+            sp.setAdapter(new MyCustomAdapter(this,
+                    R.layout.spinner_item,
+                    (ArrayList<Conversation>) conversationList));
         }
     }
 
@@ -195,6 +197,8 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
             layoutId = itemLayoutId;
             dataConvs = objects;
         }
+
+
 
         @Override
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
