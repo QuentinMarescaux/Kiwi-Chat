@@ -8,6 +8,9 @@ package com.example.chat2i;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.support.annotation.NonNull;
+
+import androidx.annotation.Nullable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +19,7 @@ public class RestRequest extends AsyncTask<String, Void, JSONObject> {
 
     private RestActivity mAct ;
     private GlobalState gs;
+    @Nullable
     private String action = null;
     // Une tâche ne peut être exécutée qu'une seule fois
 
@@ -32,7 +36,8 @@ public class RestRequest extends AsyncTask<String, Void, JSONObject> {
     }
 
     @Override
-    protected JSONObject doInBackground(String... qs) {
+    @NonNull
+    protected JSONObject doInBackground(@NonNull String... qs) {
         Log.i(gs.cat,"doInBackground");	// rien de l'UI thread ici
 
         // si nb args de qs = 1 ??
@@ -57,7 +62,7 @@ public class RestRequest extends AsyncTask<String, Void, JSONObject> {
         return json;
     }
 
-    protected void onPostExecute(JSONObject result) {
+    protected void onPostExecute(@NonNull JSONObject result) {
         Log.i(gs.cat,"onPostExecute");
         mAct.traiteReponse(result, action);
     }

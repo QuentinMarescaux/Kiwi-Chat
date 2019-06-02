@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,6 +31,7 @@ public abstract class RestActivity extends AppCompatActivity {
         req.execute(qs,action);
     }
 
+    @NonNull
     public String urlPeriodique(String action) {
         // devrait être abstraite, mais dans ce cas doit être obligatoirement implémentée...
         // On pourrait utiliser une interface ?
@@ -40,7 +42,7 @@ public abstract class RestActivity extends AppCompatActivity {
     // Try AlarmManager running Service
     // http://rmdiscala.developpez.com/cours/LesChapitres.html/Java/Cours3/Chap3.1.htm
     // La requete elle-même sera récupérée grace à l'action demandée dans la méthode urlPeriodique
-    public void requetePeriodique(int periode, final String action) {
+    public void requetePeriodique(@NonNull int periode, final String action) {
 
         TimerTask doAsynchronousTask;
         final Handler handler = new Handler();
@@ -67,7 +69,7 @@ public abstract class RestActivity extends AppCompatActivity {
 
 
 
-    public abstract void traiteReponse(JSONObject o, String action);
+    public abstract void traiteReponse(@NonNull JSONObject o, String action);
     // devra être implémenté dans la classe fille
 
     @Override
@@ -80,13 +82,15 @@ public abstract class RestActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    @NonNull
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @NonNull
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch(id) {
             case R.id.action_account : gs.alerter("Non implementé"); break;

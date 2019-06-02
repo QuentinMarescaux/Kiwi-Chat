@@ -1,5 +1,7 @@
 package com.example.chat2i;
 
+import android.support.annotation.NonNull;
+
 public class Conversation {
 
     /*
@@ -33,6 +35,7 @@ public class Conversation {
                 '}';
     }*/
 
+    @NonNull
     public String toString() {
         return theme;
     }

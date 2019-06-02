@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.support.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,7 +39,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         @Override
-        protected JSONObject doInBackground(String... qs) {
+        @NonNull
+        protected JSONObject doInBackground(@Nullable String... qs) {
             // String... qs est une ellipse:
             // permet de récupérer des arguments passés sous forme de liste arg1, arg2, arg3...
             // dans un tableau
@@ -56,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return ob; // TODO: renvoyer des JSONObject et pas des String
         }
 
-        protected void onPostExecute(JSONObject result) {
+        protected void onPostExecute(@Nullable JSONObject result) {
             Log.i("L4-SI-Logs","onPostExecute");
             if (result != null ) {
                 Log.i("L4-SI-Logs", result.toString());
@@ -79,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gs = (GlobalState) getApplication();
 
@@ -149,13 +152,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    @NonNull
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @NonNull
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings : gs.alerter("preferences");
             // afficher l'activité "préférences"
@@ -169,7 +174,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.login_cbRemember : // Clic sur case à cocher
                 savePrefs();

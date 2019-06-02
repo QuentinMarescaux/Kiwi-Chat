@@ -3,6 +3,7 @@ package com.example.chat2i;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
     private Spinner sp;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_conversation);
 
@@ -54,7 +55,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
 
 
     @Override
-    public void traiteReponse(JSONObject o, String action) {
+    public void traiteReponse(@NonNull JSONObject o, @NonNull String action) {
         if (action.contentEquals("recupConversations")) {
             gs.alerter("attention le json arrive");
             gs.alerter(o.toString());
@@ -164,7 +165,7 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         // lors du clic sur le bouton OK,
         // récupérer l'id de la conversation sélectionnée
         // démarrer l'activité d'affichage des messages
@@ -190,9 +191,9 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
         private int layoutId;
         private ArrayList<Conversation> dataConvs;
 
-        public MyCustomAdapter(Context context,
+        public MyCustomAdapter(@NonNull Context context,
                                int itemLayoutId,
-                               ArrayList<Conversation> objects) {
+                               @NonNull ArrayList<Conversation> objects) {
             super(context, itemLayoutId, objects);
             layoutId = itemLayoutId;
             dataConvs = objects;
@@ -201,7 +202,8 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
 
 
         @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        @NonNull
+        public View getDropDownView(@NonNull int position, View convertView, ViewGroup parent) {
             //return getCustomView(position, convertView, parent);
             LayoutInflater inflater = getLayoutInflater();
             View item = inflater.inflate(layoutId, parent, false);
@@ -222,7 +224,8 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        @NonNull
+        public View getView(@NonNull  int position, View convertView, ViewGroup parent) {
             //return getCustomView(position, convertView, parent);
             LayoutInflater inflater = getLayoutInflater();
             View item = inflater.inflate(layoutId, parent, false);

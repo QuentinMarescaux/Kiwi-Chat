@@ -8,6 +8,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +24,9 @@ import java.net.URL;
 
 public class GlobalState extends Application {
 
+    @NonNull
     public String cat = "L4-SI-Logs";
+    @NonNull
     public String CAT = "L4-SI-Logs";
 
     @Override
@@ -38,8 +43,8 @@ public class GlobalState extends Application {
     }
 
 
-
-    private String convertStreamToString(InputStream in) throws IOException {
+    @NonNull
+    private String convertStreamToString(@NonNull InputStream in) throws IOException {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder sb = new StringBuilder();
@@ -58,8 +63,8 @@ public class GlobalState extends Application {
     }
 
 
-
-    public String requete(String qs) {
+    @NonNull
+    public String requete(@Nullable String qs) {
         if (qs != null)
         {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -86,7 +91,7 @@ public class GlobalState extends Application {
         return "";
     }
 
-
+    @NonNull
     public boolean verifReseau()
     {
         // On vérifie si le réseau est disponible,

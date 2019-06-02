@@ -1,5 +1,7 @@
 package com.example.chat2i;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 
 public class ListeConversations {
@@ -19,6 +21,7 @@ public class ListeConversations {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "ListeConversations{" +
                 "list=" + list +
