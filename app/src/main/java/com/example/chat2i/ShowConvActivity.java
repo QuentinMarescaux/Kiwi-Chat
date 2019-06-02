@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.support.annotation.NonNull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +23,7 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
     private EditText edtMsg;
 
     @Override
-    public void traiteReponse(JSONObject o, String action) {
+    public void traiteReponse(@NonNull JSONObject o, @NonNull String action) {
         if (action.contentEquals("posterMessage")) {
             gs.alerter("retour de la requete posterMessage");
         }
@@ -71,7 +72,7 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_conversation);
 
@@ -96,7 +97,8 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
         edtMsg = findViewById(R.id.conversation_edtMessage);
     }
 
-    public String urlPeriodique(String action) {
+    @NonNull
+    public String urlPeriodique(@NonNull String action) {
         String qs = "";
         if (action.equals("chargement_messages")) {
             qs = "action=getMessages&idConv=" + idConv;
@@ -107,7 +109,7 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         // Clic sur OK : on récupère le message
         // conversation_edtMessage
 

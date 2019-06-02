@@ -2,6 +2,8 @@ package com.example.chat2i;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,7 @@ public class ChoixConvActivity_V1 extends AppCompatActivity {
         }
 
         @Override
+        @NonNull
         protected JSONObject doInBackground(String... qs) {
             // String... qs est une ellipse:
             // permet de récupérer des arguments passés sous forme de liste arg1, arg2, arg3...
@@ -42,7 +45,8 @@ public class ChoixConvActivity_V1 extends AppCompatActivity {
             return ob; // TODO: renvoyer des JSONObject et pas des String
         }
 
-        protected void onPostExecute(JSONObject result) {
+
+        protected void onPostExecute(@Nullable JSONObject result) {
             Log.i("L4-SI-Logs","onPostExecute");
             if (result != null ) {
                 Log.i("L4-SI-Logs", result.toString());
