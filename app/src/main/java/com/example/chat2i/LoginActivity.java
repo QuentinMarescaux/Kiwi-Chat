@@ -157,8 +157,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings : gs.alerter("preferences");
-            // afficher l'activité "préférences"
+            case R.id.action_settings :
+                gs.alerter("preferences");
+                // afficher l'activité "préférences"
                 Intent toSettings = new Intent(this,SettingsActivity.class);
                 startActivity(toSettings);
             break ;

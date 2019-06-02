@@ -14,9 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".ChoixConvActivity"></activity>
         <activity android:name=".ShowConvActivity"></activity>
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SettingsActivity" android:label="Preferences"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
