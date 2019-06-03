@@ -1,9 +1,13 @@
 package com.example.chat2i;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresPermission;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +17,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,66 +35,52 @@ import java.util.ArrayList;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ChoixConvActivity extends RestActivity implements View.OnClickListener {
+public class ChoixConvActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ListeConversations listeConvs;
+    private GlobalState gs;
     private Button btnOK;
     private Spinner sp;
 
     @Override
     protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gs = (GlobalState) getApplication();
         setContentView(R.layout.activity_choix_conversation);
-
-        // Au démarrage de l'activité, réaliser une requete
-        // Pour récupérer les conversations
-        String qs = "action=getConversations";
-
-        // On se sert des services offerts par RestActivity,
-        // qui propose des méthodes d'envoi de requetes asynchrones
-        envoiRequete(qs, "recupConversations");
-
-        listeConvs = new ListeConversations();
-
-        btnOK = findViewById(R.id.choixConversation_btnOK);
-        btnOK.setOnClickListener(this);
 
         sp = (Spinner) findViewById(R.id.choixConversation_choixConv);
 
+        // Au démarrage de l'activité, réaliser une requete
+        //  pour récupérer les conversations
+        String qs = "action=getConversations";
+
+        // On se sert des services offerts par librairie Volley
+        //  pour effectuer nos requêtes
+        gs.volleyJsonObjectRequest(qs,
+                new VolleyCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        createConversationList(response);
+                    }
+                });
+
+        btnOK = findViewById(R.id.choixConversation_btnOK);
+        btnOK.setOnClickListener(this);
     }
 
 
-    @Override
-    public void traiteReponse(@NonNull JSONObject o, @NonNull String action) {
-        if (action.contentEquals("recupConversations")) {
-            gs.alerter(o.toString());
+    public void createConversationList(JSONObject response) {
+        gs.alerter("coucou");
+        JSONArray convs = null;
+        List<Conversation> conversationList = new ArrayList<Conversation>();
+        try {
+            if (response.getString("action").contentEquals("getConversations")) {
+                gs.alerter(response.toString());
 
-            // On transforme notre objet JSON en une liste de "Conversations"
-            // On pourrait utiliser la librairie GSON pour automatiser ce processus d'interprétation
-            // des objets JSON reçus
-            // Cf. poly de centrale "programmation mobile et réalité augmentée"
-
-            // Ici, on se contente de créer une classe "Conversation" et une classe "ListeConversations"
-            // On parcourt l’objet JSON pour instancier des Conversations, que l’on insère dans la liste
-
-            /*
-             * {"connecte":true,
-             * "action":"getConversations",
-             * "feedback":"entrez action: logout, setPasse(passe),setPseudo(pseudo), setCouleur(couleur),getConversations, getMessages(idConv,[idLastMessage]), setMessage(idConv,contenu), ...",
-             * "conversations":[ {"id":"12","active":"1","theme":"Les cours en IAM"},
-             *                   {"id":"2","active":"1","theme":"Ballon d'Or"}]}
-             * */
-
-
-            JSONArray convs = null;
-            List<Conversation> conversationList = new ArrayList<Conversation>();
-
-            try {
                 /**
                  * AVEC GSON
                  */
                 //on récupère les conversations dans le JSON
-                convs = o.getJSONArray("conversations");
+                convs = response.getJSONArray("conversations");
 
                 //on récupère le type avec TypeToken. Elle va permettre à la librairie de connaitre
                 //le type de retour de notre list car il ne peut pas être déterminé à l'execution
@@ -96,71 +92,19 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
                 for(Conversation c : conversationList){
                     gs.alerter("Conv " + c.getId()  + " / theme = " + c.getTheme() + " / active ?" + c.getActive());
                 }
-
-                /**
-                 * SANS GSON
-                 */
-/*
-                int i;
-                try {
-                    convs = o.getJSONArray("conversations");
-                    for(i=0;i<convs.length();i++) {
-                    JSONObject nextConv = (JSONObject) convs.get(i);
-
-                    int id =Integer.parseInt(nextConv.getString("id"));
-                    String theme = nextConv.getString("theme");
-                    Boolean active = ((String) nextConv.getString("active")).contentEquals("1");
-
-                    gs.alerter("Conv " + id  + " theme = " + theme + " active ?" + active);
-                    Conversation c = new Conversation(id,theme,active);
-
-                    listeConvs.addConversation(c);
-                }
-*/
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
-            //gs.alerter(listeConvs.toString());
-            gs.alerter(conversationList.toString());
-
-            // On peut maintenant appuyer sur le bouton
-            btnOK.setEnabled(true);
-            sp.setAdapter(new MyCustomAdapter(this,
-                    R.layout.spinner_item,
-                    (ArrayList<Conversation>) conversationList));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-    }
 
-    private void remplirSpinner() {
+        //gs.alerter(listeConvs.toString());
+        gs.alerter(conversationList.toString());
 
-        // V1 : utilisation d'un spinner
-        // https://www.mkyong.com/android/android-spinner-drop-down-list-example/
-
-        // On ne doit déclencher cette méthode que lorsque la liste des conversations
-        // est complète
-
-        // V1 : Adaptateur simple (on affiche juste les noms des conversations)
-        // Cet adaptateur utilise la méthode toString() des conversations
-        // Pour choisir le contenu à afficher dans les items du menu
-
-        ArrayAdapter<Conversation> dataAdapter =
-                new ArrayAdapter<Conversation>(this,
-                android.R.layout.simple_spinner_item, listeConvs.getList());
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp.setAdapter(dataAdapter);
-
-    }
-
-
-    private void remplirSpinner2() {
-        // V2 : Utilisation d'un adapteur customisé qui permet de définir nous-même
-        // la forme des éléments à afficher
-
+        // On peut maintenant appuyer sur le bouton
+        btnOK.setEnabled(true);
         sp.setAdapter(new MyCustomAdapter(this,
-                                            R.layout.spinner_item,
-                                            listeConvs.getList()));
-
+                R.layout.spinner_item,
+                (ArrayList<Conversation>) conversationList));
     }
 
     @Override

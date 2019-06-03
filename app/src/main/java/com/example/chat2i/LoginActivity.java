@@ -17,16 +17,20 @@ import android.support.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    GlobalState gs;
     EditText champLogin;
     EditText champPass;
     CheckBox champRemember;
-    GlobalState gs;
     Button btnOK;
 
     class JSONAsyncTask extends AsyncTask<String, Void, JSONObject> {
@@ -97,7 +101,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         champRemember.setOnClickListener(this);
         btnOK.setOnClickListener(this);
-
     }
 
     @Override
@@ -179,26 +182,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.login_cbRemember : // Clic sur case à cocher
                 savePrefs();
-
                 break;
-
-
             case R.id.login_btnOK :
-
                 String login = champLogin.getText().toString();
                 String passe = champPass.getText().toString();
 
                 String qs = "action=connexion&login=" + login + "&passe=" +passe;
 
-                // gs.requete(qs); // Ceci génère une exception : networkOnMainThread
-
-                // A faire en utilisant une AsyncTask
                 JSONAsyncTask js = new JSONAsyncTask();
                 js.execute(qs);
-
-
                 break;
-
         }
 
     }

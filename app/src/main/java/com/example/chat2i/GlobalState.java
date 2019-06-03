@@ -13,6 +13,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,7 +62,7 @@ public class GlobalState extends Application {
                 sb.append(line + "\n");
             }
             return sb.toString();
-        }finally {
+        } finally {
             try {
                 in.close();
             } catch (IOException e) {
@@ -94,6 +101,38 @@ public class GlobalState extends Application {
         }
 
         return "";
+    }
+
+    @RequiresPermission(allOf = {
+            Manifest.permission.INTERNET})
+    public void volleyJsonObjectRequest(String qs, final VolleyCallback callback){
+
+        String REQUEST_TAG = "volleyJsonObjectRequest";
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String urlData = prefs.getString("urlData","http://chaire-ecommerce.ec-lille.fr/ime5/data.php");
+
+        final String url = urlData + "?" + qs;
+
+        JsonObjectRequest jsonObjectReq = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(CAT, "Error: " + error.getMessage());
+                if (error.getMessage() != null)
+                    alerter("Error: " + error.getMessage() + ", lors de la requête `" + url + "`");
+                else
+                    alerter("Error: Un problème est survenu lors de la requête `" + url + "`");
+            }
+        });
+
+        // Adding JsonObject request to request queue
+        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectReq,REQUEST_TAG);
     }
 
     @NonNull
