@@ -1,8 +1,6 @@
 package com.example.chat2i;
 
-import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.annotation.NonNull;
 
 import java.util.List;
 
