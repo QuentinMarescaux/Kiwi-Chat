@@ -67,37 +67,29 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
         btnOK.setOnClickListener(this);
     }
 
-
     public void createConversationList(JSONObject response) {
-        gs.alerter("coucou");
         JSONArray convs = null;
         List<Conversation> conversationList = new ArrayList<Conversation>();
         try {
-            if (response.getString("action").contentEquals("getConversations")) {
-                gs.alerter(response.toString());
+            gs.alerter(response.toString());
 
-                /**
-                 * AVEC GSON
-                 */
-                //on récupère les conversations dans le JSON
-                convs = response.getJSONArray("conversations");
+            //on récupère les conversations dans le JSON
+            convs = response.getJSONArray("conversations");
 
-                //on récupère le type avec TypeToken. Elle va permettre à la librairie de connaitre
-                //le type de retour de notre list car il ne peut pas être déterminé à l'execution
-                Type listType = new TypeToken<ArrayList<Conversation>>(){}.getType();
-                //on crée le Gson qui va transformer le JSONArray en objet Conversation qui sera placé dans une List<Conversation>
-                conversationList = new Gson().fromJson(String.valueOf(convs), listType);
+            //on récupère le type avec TypeToken. Elle va permettre à la librairie de connaitre
+            //le type de retour de notre list car il ne peut pas être déterminé à l'execution
+            Type listType = new TypeToken<ArrayList<Conversation>>(){}.getType();
+            //on crée le Gson qui va transformer le JSONArray en objet Conversation qui sera placé dans une List<Conversation>
+            conversationList = new Gson().fromJson(String.valueOf(convs), listType);
 
-                //parcours de la List<Conversation> pour afficher comme précédemment les conversations
-                for(Conversation c : conversationList){
-                    gs.alerter("Conv " + c.getId()  + " / theme = " + c.getTheme() + " / active ?" + c.getActive());
-                }
+            //parcours de la List<Conversation> pour afficher comme précédemment les conversations
+            for(Conversation c : conversationList){
+                gs.alerter("Conv " + c.getId()  + " / theme = " + c.getTheme() + " / active ?" + c.getActive());
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        //gs.alerter(listeConvs.toString());
         gs.alerter(conversationList.toString());
 
         // On peut maintenant appuyer sur le bouton
@@ -109,14 +101,6 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(@NonNull View v) {
-        // lors du clic sur le bouton OK,
-        // récupérer l'id de la conversation sélectionnée
-        // démarrer l'activité d'affichage des messages
-
-        // NB : il faudrait être sur qu'on ne clique pas sur le bouton
-        // tant qu'on a pas fini de charger la liste des conversations
-        // On indique que le bouton est désactivé au départ.
-
         Conversation convSelected = (Conversation) sp.getSelectedItem();
         gs.alerter("Conv sélectionnée : " + convSelected.getTheme()
                         + " id=" + convSelected.getId());
@@ -129,8 +113,8 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
         startActivity(toShowConv);
     }
 
-    public class MyCustomAdapter extends ArrayAdapter<Conversation> {
 
+    public class MyCustomAdapter extends ArrayAdapter<Conversation> {
         private int layoutId;
         private ArrayList<Conversation> dataConvs;
 
@@ -141,8 +125,6 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
             layoutId = itemLayoutId;
             dataConvs = objects;
         }
-
-
 
         @Override
         @NonNull
