@@ -1,10 +1,12 @@
 package com.example.chat2i;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresPermission;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -64,6 +66,9 @@ public class GlobalState extends Application {
 
 
     @NonNull
+    @RequiresPermission(allOf = {
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.INTERNET})
     public String requete(@Nullable String qs) {
         if (qs != null)
         {
@@ -92,6 +97,9 @@ public class GlobalState extends Application {
     }
 
     @NonNull
+    @RequiresPermission(allOf = {
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.INTERNET})
     public boolean verifReseau()
     {
         // On vérifie si le réseau est disponible,

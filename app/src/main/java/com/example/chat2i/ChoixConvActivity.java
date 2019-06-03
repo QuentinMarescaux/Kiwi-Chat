@@ -57,7 +57,6 @@ public class ChoixConvActivity extends RestActivity implements View.OnClickListe
     @Override
     public void traiteReponse(@NonNull JSONObject o, @NonNull String action) {
         if (action.contentEquals("recupConversations")) {
-            gs.alerter("attention le json arrive");
             gs.alerter(o.toString());
 
             // On transforme notre objet JSON en une liste de "Conversations"
