@@ -9,9 +9,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShowConvActivity extends RestActivity implements View.OnClickListener {
 
@@ -47,6 +54,19 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
 
                 // parcours des messages
                 JSONArray messages = o.getJSONArray("messages");
+                List<Message> messageList = new ArrayList<Message>();
+
+                //Utilisation de Gson pour transformer le Json en objet Message
+                Type listType = new TypeToken<ArrayList<Message>>(){}.getType();
+                messageList = new Gson().fromJson(String.valueOf(messages), listType);
+
+                for(Message m : messageList){
+                    TextView tv2 = new TextView(this);
+                    tv2.setText("[" + m.getAuteur() + "]" + m.getContenu());
+                   // tv2.setTextColor(Color.parseColor(m.getCouleur()));
+                    msgLayout.addView(tv2);
+                }
+/*
                 int i;
                 for(i=0;i<messages.length();i++) {
                     JSONObject msg = (JSONObject) messages.get(i);
@@ -61,7 +81,7 @@ public class ShowConvActivity extends RestActivity implements View.OnClickListen
                     msgLayout.addView(tv);
 
                 }
-
+*/
                 // mise à jour du numéro du dernier message
                 idLastMessage = Integer.parseInt(o.getString("idLastMessage"));
             } catch (JSONException e) {

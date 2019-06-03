@@ -40,7 +40,6 @@ public class Conversation {
         return theme;
     }
 
-
     public int getId() {
         return id;
     }
