@@ -1,6 +1,8 @@
-package com.example.chat2i;
+package com.example.chat2i.Models;
 
 import android.support.annotation.NonNull;
+
+import com.example.chat2i.Models.Conversation;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.chat2i;
+package com.example.chat2i.Controllers.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.chat2i.Models.Conversation;
+import com.example.chat2i.R;
+import com.example.chat2i.Utils.GlobalState;
+import com.example.chat2i.Utils.VolleyCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -96,7 +100,7 @@ public class ChoixConvActivity extends DefaultActivity implements View.OnClickLi
                         + " id=" + convSelected.getId());
 
         // On crée un Intent pour changer d'activité
-        Intent toShowConv = new Intent(this,ShowConvActivity.class);
+        Intent toShowConv = new Intent(this, ShowConvActivity.class);
         Bundle bdl = new Bundle();
         bdl.putInt("idConversation",convSelected.getId());
         toShowConv.putExtras(bdl);

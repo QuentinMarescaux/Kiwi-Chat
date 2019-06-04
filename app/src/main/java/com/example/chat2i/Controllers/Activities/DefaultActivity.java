@@ -1,4 +1,4 @@
-package com.example.chat2i;
+package com.example.chat2i.Controllers.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.chat2i.R;
+import com.example.chat2i.Utils.GlobalState;
 
 public class DefaultActivity extends AppCompatActivity {
     protected GlobalState gs;

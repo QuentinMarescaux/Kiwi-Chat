@@ -1,4 +1,4 @@
-package com.example.chat2i;
+package com.example.chat2i.Utils;
 
 import android.Manifest;
 import android.app.Application;

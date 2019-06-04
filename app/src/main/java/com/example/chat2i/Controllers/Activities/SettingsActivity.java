@@ -1,6 +1,9 @@
-package com.example.chat2i;
+package com.example.chat2i.Controllers.Activities;
 
 import android.preference.PreferenceActivity;
+
+import com.example.chat2i.Controllers.Fragments.SettingsFragment;
+import com.example.chat2i.R;
 
 import java.util.List;
 

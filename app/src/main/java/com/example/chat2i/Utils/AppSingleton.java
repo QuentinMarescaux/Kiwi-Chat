@@ -1,4 +1,4 @@
-package com.example.chat2i;
+package com.example.chat2i.Utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

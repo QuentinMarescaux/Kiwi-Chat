@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".GlobalState"
+        android:name=".Utils.GlobalState"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
@@ -15,10 +15,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".ChoixConvActivity"></activity>
-        <activity android:name=".ShowConvActivity"></activity>
-        <activity android:name=".SettingsActivity" android:label="Preferences"></activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Controllers.Activities.ChoixConvActivity"></activity>
+        <activity android:name=".Controllers.Activities.ShowConvActivity"></activity>
+        <activity android:name=".Controllers.Activities.SettingsActivity" android:label="Preferences"></activity>
+        <activity android:name=".Controllers.Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

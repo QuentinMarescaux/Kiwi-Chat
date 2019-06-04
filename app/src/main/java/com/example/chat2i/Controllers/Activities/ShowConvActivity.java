@@ -1,6 +1,5 @@
-package com.example.chat2i;
+package com.example.chat2i.Controllers.Activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -10,6 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.annotation.NonNull;
 
+import com.example.chat2i.Models.Message;
+import com.example.chat2i.R;
+import com.example.chat2i.Utils.GlobalState;
+import com.example.chat2i.Utils.VolleyCallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

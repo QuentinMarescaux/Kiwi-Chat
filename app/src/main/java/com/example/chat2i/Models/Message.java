@@ -1,4 +1,4 @@
-package com.example.chat2i;
+package com.example.chat2i.Models;
 
 
         /* {"connecte":true,
