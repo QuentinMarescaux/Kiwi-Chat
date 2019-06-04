@@ -55,7 +55,6 @@ public class GlobalState extends Application {
         t.show();
     }
 
-
     @NonNull
     private String convertStreamToString(@NonNull InputStream in) throws IOException {
         try {
@@ -74,7 +73,6 @@ public class GlobalState extends Application {
             }
         }
     }
-
 
     @NonNull
     @RequiresPermission(allOf = {

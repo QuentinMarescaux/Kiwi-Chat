@@ -110,15 +110,6 @@ public class ShowConvActivity extends DefaultActivity implements View.OnClickLis
             if (!messageList.isEmpty())
                 updateUI(messageList);
 
-            /*
-            for(Message m : messageList){
-                TextView tv2 = new TextView(this);
-                tv2.setText("[" + m.getAuteur() + "]" + m.getContenu());
-                // tv2.setTextColor(Color.parseColor(m.getCouleur()));
-                msgLayout.addView(tv2);
-            }
-            */
-
             // mise à jour du numéro du dernier message
             idLastMessage = Integer.parseInt(response.getString("idLastMessage"));
         } catch (JSONException e) {

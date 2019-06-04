@@ -1,20 +1,5 @@
 package com.example.chat2i.Models;
 
-
-        /* {"connecte":true,
-            "action":"getMessages",
-            "feedback":"entrez action: logout, setPasse(passe),setPseudo(pseudo),
-            setCouleur(couleur),getConversations,
-            getMessages(idConv,[idLastMessage]),
-            setMessage(idConv,contenu), ...",
-            "messages":[{"id":"35",
-                            "contenu":"Que pensez-vous des cours en IAM ?",
-                            "auteur":"Tom",
-                            "couleur":"#ff0000"}]
-            ,"idLastMessage":"35"}
-            */
-
-
 import android.support.annotation.NonNull;
 
 public class Message {
