@@ -62,7 +62,9 @@ public class LoginActivity extends DefaultActivity implements View.OnClickListen
                         LoginActivity.this.savePrefs();
                         Intent toChoixConv = new Intent(LoginActivity.this, ChoixConvActivity.class);
                         startActivity(toChoixConv);
-
+                    }
+                    else {
+                        gs.alerter("Mauvais identifiants");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

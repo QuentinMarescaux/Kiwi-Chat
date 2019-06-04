@@ -20,7 +20,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void updateWithMessage(Message message) {
-        this.author.setText("[" + message.getAuteur() + "] ");
+        this.author.setText(message.getAuteur() + " : ");
         this.content.setText(message.getContenu());
     }
 }

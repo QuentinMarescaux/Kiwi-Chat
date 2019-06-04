@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Chat_2I</string>
+    <string name="app_name">Kiwi Chat</string>
     <string name="action_settings">Préférences</string>
     <string name="action_account">Mon Compte</string>
-    <string name="titre">Chat 2I !</string>
+    <string name="titre">Kiwi Chat !</string>
     <string name="login">Login : </string>
     <string name="passe">Mot de passe : </string>
     <string name="ok">OK</string>

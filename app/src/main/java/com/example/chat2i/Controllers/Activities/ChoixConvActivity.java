@@ -134,9 +134,9 @@ public class ChoixConvActivity extends DefaultActivity implements View.OnClickLi
             ImageView icon = (ImageView) item.findViewById(R.id.spinner_icon);
 
             if (nextC.getActive()) {
-                icon.setImageResource(R.drawable.icon36);
+                icon.setImageResource(R.drawable.conv_active);
             } else {
-                icon.setImageResource(R.drawable.icongray36);
+                icon.setImageResource(R.drawable.conv);
             }
 
             return item;
@@ -156,9 +156,9 @@ public class ChoixConvActivity extends DefaultActivity implements View.OnClickLi
             ImageView icon = (ImageView) item.findViewById(R.id.spinner_icon);
 
             if (nextC.getActive()) {
-                icon.setImageResource(R.drawable.icon);
+                icon.setImageResource(R.drawable.conv_active);
             } else {
-                icon.setImageResource(R.drawable.icongray);
+                icon.setImageResource(R.drawable.conv);
             }
 
             return item;

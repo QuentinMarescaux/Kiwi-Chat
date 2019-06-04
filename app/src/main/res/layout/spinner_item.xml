@@ -6,12 +6,16 @@
     <ImageView
         android:id="@+id/spinner_icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:maxWidth="40dp"
+        android:padding="5dp"/>
     
     <TextView
         android:id="@+id/spinner_theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="80px" />
+        android:textSize="80px"
+        android:layout_marginLeft="5dp"
+        android:paddingTop="20dp"/>
 
 </LinearLayout>
