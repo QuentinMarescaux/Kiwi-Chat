@@ -1,13 +1,9 @@
 package com.example.chat2i;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresPermission;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +13,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,9 +25,10 @@ import java.util.ArrayList;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ChoixConvActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChoixConvActivity extends DefaultActivity implements View.OnClickListener {
 
     private GlobalState gs;
+
     private Button btnOK;
     private Spinner sp;
 
@@ -59,7 +50,8 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
                 new VolleyCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
-                        createConversationList(response);
+                        gs.log(response.toString());
+                        displayConversation(response);
                     }
                 });
 
@@ -67,12 +59,10 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
         btnOK.setOnClickListener(this);
     }
 
-    public void createConversationList(JSONObject response) {
+    public void displayConversation(JSONObject response) {
         JSONArray convs = null;
         List<Conversation> conversationList = new ArrayList<Conversation>();
         try {
-            gs.alerter(response.toString());
-
             //on récupère les conversations dans le JSON
             convs = response.getJSONArray("conversations");
 
@@ -82,15 +72,15 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
             //on crée le Gson qui va transformer le JSONArray en objet Conversation qui sera placé dans une List<Conversation>
             conversationList = new Gson().fromJson(String.valueOf(convs), listType);
 
-            //parcours de la List<Conversation> pour afficher comme précédemment les conversations
+            //parcours de la List<Conversation> pour afficher comme les conversations dans le log
             for(Conversation c : conversationList){
-                gs.alerter("Conv " + c.getId()  + " / theme = " + c.getTheme() + " / active ?" + c.getActive());
+                gs.log("Conv " + c.getId()  + " / theme = " + c.getTheme() + " / active ?" + c.getActive());
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        gs.alerter(conversationList.toString());
+        gs.log(conversationList.toString());
 
         // On peut maintenant appuyer sur le bouton
         btnOK.setEnabled(true);
@@ -102,7 +92,7 @@ public class ChoixConvActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(@NonNull View v) {
         Conversation convSelected = (Conversation) sp.getSelectedItem();
-        gs.alerter("Conv sélectionnée : " + convSelected.getTheme()
+        gs.log("Conv sélectionnée : " + convSelected.getTheme()
                         + " id=" + convSelected.getId());
 
         // On crée un Intent pour changer d'activité

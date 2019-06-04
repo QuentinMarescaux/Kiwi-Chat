@@ -45,6 +45,10 @@ public class GlobalState extends Application {
         CookieHandler.setDefault(cookieManager);
     }
 
+    public void log(String s) {
+        Log.i(CAT,s);
+    }
+
     public void alerter(String s) {
         Log.i(CAT,s);
         Toast t = Toast.makeText(this,s, Toast.LENGTH_LONG);
@@ -150,7 +154,6 @@ public class GlobalState extends Application {
         Boolean bStatut = false;
         if (netInfo != null)
         {
-
             NetworkInfo.State netState = netInfo.getState();
 
             if (netState.compareTo(NetworkInfo.State.CONNECTED) == 0)
@@ -164,7 +167,6 @@ public class GlobalState extends Application {
                     case ConnectivityManager.TYPE_WIFI :
                         sType = "Réseau wifi détecté"; break;
                 }
-
             }
         }
 

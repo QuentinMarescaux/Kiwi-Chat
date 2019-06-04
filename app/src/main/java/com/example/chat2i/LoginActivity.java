@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,29 +16,22 @@ import android.support.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends DefaultActivity implements View.OnClickListener {
 
-    GlobalState gs;
     EditText champLogin;
     EditText champPass;
     CheckBox champRemember;
     Button btnOK;
 
     class JSONAsyncTask extends AsyncTask<String, Void, JSONObject> {
-        // Params, Progress, Result
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.i("L4-SI-Logs","onPreExecute");
+            gs.log("[LoginActivity] onPreExecute");
         }
 
         @Override
@@ -49,31 +41,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // permet de récupérer des arguments passés sous forme de liste arg1, arg2, arg3...
             // dans un tableau
             // pas d'interaction avec l'UI Thread ici
-            Log.i("L4-SI-Logs","doInBackground");
+            gs.log("[LoginActivity] doInBackground");
             String res = LoginActivity.this.gs.requete(qs[0]);
 
             JSONObject ob = null;
             try {
-                // TODO: interpréter le résultat sous forme d'objet JSON
                 ob = new JSONObject(res);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            return ob; // TODO: renvoyer des JSONObject et pas des String
+            return ob;
         }
 
         protected void onPostExecute(@Nullable JSONObject result) {
-            Log.i("L4-SI-Logs","onPostExecute");
+            gs.log("[LoginActivity] onPostExecute");
             if (result != null ) {
-                Log.i("L4-SI-Logs", result.toString());
-                LoginActivity.this.gs.alerter(result.toString());
+                gs.log(result.toString());
 
-                // TODO: Vérifier la connexion ("connecte":true)
                 try {
                     if (result.getBoolean("connecte")) {
                         LoginActivity.this.savePrefs();
-                        // TODO: Changer d'activité vers choixConversation
                         Intent toChoixConv = new Intent(LoginActivity.this, ChoixConvActivity.class);
                         startActivity(toChoixConv);
 
@@ -88,9 +76,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(@NonNull Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gs = (GlobalState) getApplication();
 
-        Log.i(gs.CAT,"onCreate");
+        gs.log("[LoginActivity] onCreate");
 
         setContentView(R.layout.activity_login);
 
@@ -104,24 +91,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        Log.i(gs.CAT,"onResume");
-
-        // Verif Réseau, si dispo, on active le bouton
-        btnOK.setEnabled(gs.verifReseau());
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
 
-        Log.i(gs.CAT,"onStart");
+        gs.log("[LoginActivity] onStart");
 
         // Récupérer les préférences, si la case 'remember' est cochée, on complète le formulaire
         // autres champs des préférences : urlData, login, passe
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (prefs.getBoolean("remember",true)) {
@@ -131,7 +107,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             champPass.setText(passe);
             champRemember.setChecked(true);
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        gs.log("[LoginActivity] onResume");
+
+        // Verif Réseau, si dispo, on active le bouton
+        btnOK.setEnabled(gs.verifReseau());
     }
 
     private void savePrefs() {
@@ -152,31 +137,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.commit();
     }
 
-
-
-    @Override
-    @NonNull
-    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    @NonNull
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings :
-                gs.alerter("preferences");
-                // afficher l'activité "préférences"
-                Intent toSettings = new Intent(this,SettingsActivity.class);
-                startActivity(toSettings);
-            break ;
-            case R.id.action_account : gs.alerter("compte"); break ;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
@@ -193,6 +153,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 js.execute(qs);
                 break;
         }
-
     }
 }
