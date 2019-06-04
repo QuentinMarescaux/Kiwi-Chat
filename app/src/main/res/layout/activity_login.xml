@@ -12,6 +12,7 @@
         android:id="@+id/login_titre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:text="@string/titre"
         android:textColor="@color/blanc"
@@ -25,6 +26,7 @@
             android:id="@+id/login_labelLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:text="@string/login"
             android:textColor="@color/blanc" />
 
@@ -32,6 +34,9 @@
             android:id="@+id/login_edtLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="3dp"
             android:layout_weight="1"
             android:background="@color/blanc"
             android:ems="10" >
@@ -43,12 +48,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/login_labelPasse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:text="@string/passe"
             android:textColor="@color/blanc" />
 
@@ -56,6 +63,9 @@
             android:id="@+id/login_edtPasse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="3dp"
             android:layout_weight="1"
             android:background="@color/blanc"
             android:ems="10"
@@ -71,6 +81,7 @@
             android:id="@+id/login_labelRemember"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:text="@string/remember"
             android:textColor="@color/blanc" />
 
